@@ -1,1 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cipher Compass — Legal</title>
+  <style>
+    :root {
+      --bg: #080d12;
+      --surface: #0d1117;
+      --border: rgba(0, 188, 212, 0.18);
+      --accent: #00bcd4;
+      --accent2: #00e5ff;
+      --text: #e8eaf0;
+      --muted: #8892a0;
+      --warning: #ffa726;
+      --radius: 14px;
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(8, 13, 18, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-compass {
+      width: 32px;
+      height: 32px;
+    }
+    .nav-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    .nav-links {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent);
+      border-color: var(--border);
+      background: rgba(0, 188, 212, 0.06);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 60px 24px 48px;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,188,212,0.06) 0%, transparent 70%);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,188,212,0.1);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 5vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Tab system ── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 40px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font);
+    }
+    .tab-btn.active {
+      background: rgba(0,188,212,0.12);
+      color: var(--accent);
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Sections ── */
+    .section {
+      margin-bottom: 36px;
+    }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 20px 0 8px;
+    }
+    p { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+    ul { color: var(--muted); font-size: 14px; padding-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 6px; }
+    strong { color: var(--text); }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin-bottom: 16px;
+    }
+    .card-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .card h3 { margin-top: 0; }
+
+    /* ── Highlight boxes ── */
+    .highlight {
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .highlight.green {
+      background: rgba(76,175,80,0.08);
+      border-left: 3px solid #4caf50;
+      color: #a5d6a7;
+    }
+    .highlight.orange {
+      background: rgba(255,167,38,0.08);
+      border-left: 3px solid var(--warning);
+      color: #ffcc80;
+    }
+    .highlight.blue {
+      background: rgba(0,188,212,0.07);
+      border-left: 3px solid var(--accent);
+      color: #80deea;
+    }
+
+    /* ── Meta bar ── */
+    .meta-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 36px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .meta-bar span strong { color: var(--text); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 520px) {
+      .nav-links { display: none; }
+      .tabs { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <svg class="nav-compass" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="15" stroke="#00bcd4" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="2" fill="#00bcd4"/>
+      <polygon points="16,4 18,16 16,14 14,16" fill="#00bcd4"/>
+      <polygon points="16,28 18,16 16,18 14,16" fill="#455a64"/>
+      <text x="16" y="8.5" text-anchor="middle" fill="#00bcd4" font-size="4" font-family="sans-serif" font-weight="bold">N</text>
+      <text x="16" y="27.5" text-anchor="middle" fill="#455a64" font-size="4" font-family="sans-serif">S</text>
+      <text x="5.5" y="17" text-anchor="middle" fill="#455a64" font-size="4" font-family="sans-serif">W</text>
+      <text x="26.5" y="17" text-anchor="middle" fill="#455a64" font-size="4" font-family="sans-serif">E</text>
+    </svg>
+    <span class="nav-title">Cipher Compass</span>
+  </a>
+  <div class="nav-links">
+    <a href="#" onclick="showTab('privacy')" id="nav-privacy" class="active">Privacy Policy</a>
+    <a href="#" onclick="showTab('terms')" id="nav-terms">Terms &amp; Conditions</a>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div class="hero-badge">⚖️ Legal Documents</div>
+  <h1>Privacy &amp; Terms</h1>
+  <p>Plain language. No hidden clauses. Everything Cipher Compass does with your data — which is almost nothing.</p>
+</div>
+
+<!-- ── Main Content ── -->
+<div class="container">
+
+  <!-- Tab Switcher -->
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-privacy" onclick="showTab('privacy')">Privacy Policy</button>
+    <button class="tab-btn" id="tab-terms" onclick="showTab('terms')">Terms &amp; Conditions</button>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       PRIVACY POLICY
+  ════════════════════════════════════════════════════════ -->
+  <div class="tab-content active" id="content-privacy">
+
+    <div class="meta-bar">
+      <span><strong>Developer:</strong> Vymoir Studio</span>
+      <span><strong>App:</strong> Cipher Compass</span>
+      <span><strong>Effective:</strong> 1 June 2025</span>
+      <span><strong>Last updated:</strong> 1 June 2025</span>
+    </div>
+
+    <div class="highlight green">
+      <strong>The short version:</strong> Cipher Compass collects nothing about you. No accounts, no analytics, no servers, no ads. Your files are encrypted on your device and never leave it.
+    </div>
+
+    <!-- 1 -->
+    <div class="section">
+      <div class="section-label">Section 1</div>
+      <h2>Who We Are</h2>
+      <p>Cipher Compass is developed by <strong>Vymoir Studio</strong>, an independent solo developer. Contact: <a href="mailto:support@vymoir.studio" style="color:var(--accent)">support@vymoir.studio</a></p>
+      <p>This Privacy Policy applies to the Cipher Compass Android application and this website.</p>
+    </div>
+
+    <!-- 2 -->
+    <div class="section">
+      <div class="section-label">Section 2</div>
+      <h2>What Data We Collect</h2>
+
+      <div class="card">
+        <div class="card-icon">🚫</div>
+        <h3>We do not collect</h3>
+        <ul>
+          <li>Your name, email address, or any personal identifiers</li>
+          <li>Your files, photos, videos, or documents</li>
+          <li>Your vault PIN, recovery phrase, or any credentials</li>
+          <li>Device identifiers, IP addresses, or location data</li>
+          <li>Usage analytics or crash reports</li>
+          <li>Any data transmitted to our servers (we have none)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h3>What stays on your device only</h3>
+        <ul>
+          <li><strong>Encrypted vault files</strong> — stored in your device's private app storage, encrypted with AES-256-GCM</li>
+          <li><strong>Your PIN hash</strong> — a one-way hash stored locally; we cannot reverse it</li>
+          <li><strong>Recovery phrase hash</strong> — same; hashed locally, never stored in plaintext</li>
+          <li><strong>App settings</strong> — your compass degree, gesture type, and feature preferences, stored locally in SharedPreferences</li>
+          <li><strong>Encryption keys</strong> — generated on your device and stored in Android's hardware-backed Keystore; Vymoir Studio has no access</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="section">
+      <div class="section-label">Section 3</div>
+      <h2>Permissions We Request</h2>
+
+      <h3>Storage Access (MANAGE_EXTERNAL_STORAGE)</h3>
+      <p>Required to read files you choose to encrypt and to delete original files after encryption. We access only files you explicitly select. We never scan your storage automatically.</p>
+
+      <h3>Biometrics (USE_BIOMETRIC)</h3>
+      <p>Optional. Used only to authenticate you into the vault. Biometric data is handled entirely by Android's BiometricManager — we never receive or store your fingerprint or face data.</p>
+
+      <h3>Device Administrator (optional)</h3>
+      <p>Optional. If you enable Uninstall Protection in Settings, we request Device Administrator permission. This lets Android show a warning dialog before the app is uninstalled. You can revoke this at any time from within the app or from Android Settings → Security → Device Admin Apps.</p>
+
+      <h3>Permissions we intentionally do NOT request</h3>
+      <ul>
+        <li><strong>INTERNET</strong> — Cipher Compass has no internet permission. It cannot send any data anywhere.</li>
+        <li><strong>READ_CONTACTS, CAMERA, MICROPHONE, LOCATION</strong> — never requested, never used.</li>
+      </ul>
+    </div>
+
+    <!-- 4 -->
+    <div class="section">
+      <div class="section-label">Section 4</div>
+      <h2>How We Protect Your Data</h2>
+      <ul>
+        <li><strong>AES-256-GCM encryption</strong> with unique IV per file</li>
+        <li><strong>Android Hardware Keystore</strong> — encryption keys bound to your device hardware</li>
+        <li><strong>Argon2 password hashing</strong> — industry-standard memory-hard hashing protects your PIN against brute force</li>
+        <li><strong>FLAG_SECURE</strong> — all app screens are protected from screenshots, screen recording, and remote VNC capture (including PromptSpy-type malware)</li>
+        <li><strong>Cloud backup disabled</strong> — Google Backup and device-to-device transfer are fully disabled for all app data</li>
+        <li><strong>No internet permission</strong> — the app physically cannot transmit data</li>
+      </ul>
+
+      <div class="highlight blue">
+        <strong>PromptSpy protection:</strong> Cipher Compass sets FLAG_SECURE before the app window is created. This means all screens — including your PIN entry screen — appear as a black screen to any screen recording or remote access tool, including malware that uses VNC or Accessibility Services to capture screen content.
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="section">
+      <div class="section-label">Section 5</div>
+      <h2>Data Sharing</h2>
+      <p>We share your data with <strong>nobody</strong>. There are no third-party SDKs, no analytics services, no advertising networks, and no data brokers involved in Cipher Compass.</p>
+      <p>We have no servers. There is nowhere for your data to go.</p>
+    </div>
+
+    <!-- 6 -->
+    <div class="section">
+      <div class="section-label">Section 6</div>
+      <h2>Your Rights</h2>
+      <p>Since we collect no personal data, there is nothing for us to delete, export, or correct on our end. All your data lives on your device. You can delete all app data at any time by uninstalling the app.</p>
+      <div class="highlight orange">
+        <strong>Warning:</strong> Uninstalling the app or using Android's "Clear Data" option will permanently delete your encryption keys. Any files that remain encrypted will be inaccessible. Always export your files before uninstalling.
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="section">
+      <div class="section-label">Section 7</div>
+      <h2>Children's Privacy</h2>
+      <p>Cipher Compass is not directed at children under 13. We do not knowingly collect data from anyone, including children.</p>
+    </div>
+
+    <!-- 8 -->
+    <div class="section">
+      <div class="section-label">Section 8</div>
+      <h2>Changes to This Policy</h2>
+      <p>If we update this policy, we will update the "Last updated" date above. Significant changes will be noted in the app update release notes on Google Play.</p>
+    </div>
+
+    <!-- 9 -->
+    <div class="section">
+      <div class="section-label">Section 9</div>
+      <h2>Contact</h2>
+      <p>Questions about this policy: <a href="mailto:support@vymoir.studio" style="color:var(--accent)">support@vymoir.studio</a></p>
+    </div>
+
+  </div><!-- end privacy -->
+
+
+  <!-- ════════════════════════════════════════════════════════
+       TERMS & CONDITIONS
+  ════════════════════════════════════════════════════════ -->
+  <div class="tab-content" id="content-terms">
+
+    <div class="meta-bar">
+      <span><strong>Developer:</strong> Vymoir Studio</span>
+      <span><strong>App:</strong> Cipher Compass</span>
+      <span><strong>Effective:</strong> 1 June 2025</span>
+    </div>
+
+    <div class="highlight blue">
+      By downloading or using Cipher Compass, you agree to these terms. Please read them — they are short and written in plain language.
+    </div>
+
+    <!-- 1 -->
+    <div class="section">
+      <div class="section-label">Section 1</div>
+      <h2>What Cipher Compass Is</h2>
+      <p>Cipher Compass is a private file vault application for Android. It encrypts files on your device and hides the vault behind a compass interface. It is developed and maintained by Vymoir Studio, an independent solo developer.</p>
+    </div>
+
+    <!-- 2 -->
+    <div class="section">
+      <div class="section-label">Section 2</div>
+      <h2>License</h2>
+      <p>Cipher Compass is licensed to you for personal, non-commercial use on Android devices you own or control. You may not:</p>
+      <ul>
+        <li>Reverse engineer, decompile, or disassemble the app</li>
+        <li>Redistribute, resell, or sublicense the app</li>
+        <li>Use the app for any illegal purpose</li>
+      </ul>
+    </div>
+
+    <!-- 3 -->
+    <div class="section">
+      <div class="section-label">Section 3</div>
+      <h2>Your Responsibility for Your Data</h2>
+      <div class="highlight orange">
+        <strong>Critical:</strong> Cipher Compass is a local-only encryption app. If you lose your PIN and recovery phrase, your files cannot be recovered. Not by us, not by anyone. There is no password reset, no customer support backdoor, and no cloud backup unless you set one up yourself.
+      </div>
+      <p>You are solely responsible for:</p>
+      <ul>
+        <li>Remembering or securely storing your vault PIN</li>
+        <li>Keeping your recovery phrase in a safe place</li>
+        <li>Exporting files before uninstalling the app</li>
+        <li>Not using the app for storing content that is illegal in your jurisdiction</li>
+      </ul>
+    </div>
+
+    <!-- 4 -->
+    <div class="section">
+      <div class="section-label">Section 4</div>
+      <h2>Premium Features</h2>
+      <p>Certain features (currently Paranoid Mode) require a one-time in-app purchase. This purchase is:</p>
+      <ul>
+        <li><strong>One-time only</strong> — no recurring charges, ever</li>
+        <li><strong>Permanent</strong> — tied to your Google Play account; restores if you reinstall</li>
+        <li><strong>Non-refundable</strong> after 48 hours per Google Play's refund policy</li>
+      </ul>
+      <p>We do not offer subscriptions. We do not charge for core vault functionality. The free version of Cipher Compass is fully functional.</p>
+    </div>
+
+    <!-- 5 -->
+    <div class="section">
+      <div class="section-label">Section 5</div>
+      <h2>Disclaimer of Warranties</h2>
+      <p>Cipher Compass is provided "as is." While we have implemented industry-standard security measures, we cannot guarantee absolute security. No software is immune to all threats. We are not liable for:</p>
+      <ul>
+        <li>Data loss due to device failure, loss, or theft</li>
+        <li>Loss of access due to forgotten PIN or lost recovery phrase</li>
+        <li>Security vulnerabilities in the Android OS or device firmware</li>
+        <li>Any damages arising from use or inability to use the app</li>
+      </ul>
+    </div>
+
+    <!-- 6 -->
+    <div class="section">
+      <div class="section-label">Section 6</div>
+      <h2>Acceptable Use</h2>
+      <p>You agree not to use Cipher Compass to store, distribute, or conceal:</p>
+      <ul>
+        <li>Content that is illegal under applicable law</li>
+        <li>Child sexual abuse material (CSAM) — strictly prohibited</li>
+        <li>Content that violates another person's rights</li>
+      </ul>
+      <p>Violation of these terms may result in being banned from future versions and reported to relevant authorities where legally required.</p>
+    </div>
+
+    <!-- 7 -->
+    <div class="section">
+      <div class="section-label">Section 7</div>
+      <h2>Updates and Changes</h2>
+      <p>We may update the app and these terms over time. Continued use after updates constitutes acceptance of any revised terms. Material changes will be communicated through Google Play release notes.</p>
+    </div>
+
+    <!-- 8 -->
+    <div class="section">
+      <div class="section-label">Section 8</div>
+      <h2>Governing Law</h2>
+      <p>These terms are governed by the laws of India. Disputes shall be resolved in the courts of Tamil Nadu, India.</p>
+    </div>
+
+    <!-- 9 -->
+    <div class="section">
+      <div class="section-label">Section 9</div>
+      <h2>Contact</h2>
+      <p>Questions, concerns, or feedback: <a href="mailto:support@vymoir.studio" style="color:var(--accent)">support@vymoir.studio</a></p>
+    </div>
+
+  </div><!-- end terms -->
+
+</div><!-- end container -->
+
+<footer>
+  <p>© 2025 Vymoir Studio · Cipher Compass · <a href="mailto:support@vymoir.studio">support@vymoir.studio</a></p>
+  <p style="margin-top:8px; color:#455a64; font-size:12px">Built by one person, for people who value privacy.</p>
+</footer>
+
+<script>
+  function showTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+    document.getElementById('content-' + tab).classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('nav-' + tab).classList.add('active');
+  }
+
+  // Handle URL hash on load
+  if (window.location.hash === '#terms') showTab('terms');
+</script>
+</body>
+</html>
