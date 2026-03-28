@@ -348,26 +348,22 @@
     </div>
 
     <!-- 3 -->
-    <div class="section">
+<div class="section">
       <div class="section-label">Section 3</div>
       <h2>Permissions We Request</h2>
-
       <h3>Storage Access (MANAGE_EXTERNAL_STORAGE)</h3>
       <p>Required to read files you choose to encrypt — including photos, videos, audio files, and documents — and to delete original files after encryption. We access only files you explicitly select. We never scan your storage automatically.</p>
-
       <h3>Biometrics (USE_BIOMETRIC)</h3>
       <p>Optional. Used only to authenticate you into the vault. Biometric data is handled entirely by Android's BiometricManager — we never receive or store your fingerprint or face data.</p>
-
       <h3>Device Administrator (optional)</h3>
       <p>Optional. If you enable Uninstall Protection in Settings, we request Device Administrator permission. This lets Android show a warning dialog before the app is uninstalled. You can revoke this at any time from within the app or from Android Settings → Security → Device Admin Apps.</p>
-
+      <h3>Network Access (INTERNET)</h3>
+      <p>Required only for in-app purchase processing and subscription validation through RevenueCat. This connection is used exclusively to verify your purchase status with Google Play. Your vault contents, encrypted files, passwords, recovery phrase, and all personal data never leave your device. We have no servers that receive your data.</p>
       <h3>Permissions we intentionally do NOT request</h3>
       <ul>
-        <li><strong>INTERNET</strong> — Cipher Compass has no internet permission. It cannot send any data anywhere.</li>
         <li><strong>READ_CONTACTS, CAMERA, MICROPHONE, LOCATION</strong> — never requested, never used.</li>
       </ul>
     </div>
-
     <!-- 4 -->
     <div class="section">
       <div class="section-label">Section 4</div>
